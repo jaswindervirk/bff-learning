@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+  <appender class="ch.qos.logback.core.rolling.RollingFileAppender"
+    name="FILE">
+    <file>/mnt/desi/logstash</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy
+      class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <!-- rollover hourly -->
+      <fileNamePattern>/mnt/logs/logstash.%d{yyyy-MM-dd-HH}.%i.gz</fileNamePattern>
+      <maxFileSize>1024MB</maxFileSize>
+      <maxHistory>12</maxHistory>
+    </rollingPolicy>
+  </appender>
+
+  <appender class="ch.qos.logback.classic.AsyncAppender" name="LOG_FILE_APPENDER_PROD_LOGSTASH">
+    <appender-ref ref="FILE"/>
+  </appender>
+
+  <logger additivity="false" level="INFO" name="logstash">
+    <appender-ref ref="LOG_FILE_APPENDER_PROD_LOGSTASH"/>
+  </logger>
+</configuration>
